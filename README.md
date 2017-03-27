@@ -21,11 +21,11 @@ Motion:
 - KALMAN FILTERS
 
 
-# TODO (Monday april 2nd)
-## Detection
+## TODO (Monday april 2nd)
+### Detection
 - Detection/Tracking runnable on GPU
 - Depth (may be harder)
-## RL
+### RL
 - Setup DeepGTAV
 - Setup base RL learning
 - handcrafted
