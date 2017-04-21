@@ -1,31 +1,3 @@
-# AutonomousBraking
-Work towards an autonomous braking system.
+# CS598 MAAV at UIUC
 
-## Objectives
-### Detection
-
-- Pedestrian detection
-
-Location:
-2d can be done with:
-- ROLO
-- YOLO
-- SSD
-
-3d:
-- David's trick
-- FCRN/FCN
-
-Motion:
-- ROLO
-- KALMAN FILTERS
-
-
-## TODO (Monday april 2nd)
-### Detection
-- Detection/Tracking runnable on GPU
-- Depth (may be harder)
-### RL
-- Setup DeepGTAV
-- Setup base RL learning
-- handcrafted
+In this repository, we will included code and results from our experiments in autonomous vehicles.
