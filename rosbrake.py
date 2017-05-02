@@ -18,6 +18,8 @@ from brake import in_trajectory
 ready = False
 image = None
 
+from modules import SSD, YOLO
+
 detection = 'SSD'
 
 def load_yolo():
