@@ -2,18 +2,6 @@ from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 
-def ped_brakes(bbs, bottom=.1, top=.4):
-    for bbinfo in bbs:
-        classid, _, bb = bbinfo
-        if classid !=15:
-            continue
-        [xmin, ymin, xmax, ymax] = bb
-        x = (xmin+xmax)/2.
-        y = (ymin+ymax)/2.
-        slope = bottom-top
-
-    return brake
-
 def show_ped(image, bb):
     im = np.zeros(image.shape[:2])
     [ymin, xmin, ymax, xmax] = bb
