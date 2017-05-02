@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+colors = {}
+
 def show_bboxes(img, result, figsize=(10,10), linewidth=1.5):
     fig = plt.figure(figsize=figsize)
     plt.imshow(img)
