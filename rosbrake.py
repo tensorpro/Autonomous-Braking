@@ -52,13 +52,20 @@ def should_brake(img, res):
             brake.append(in_trajectory(bb))
     return any(brake)
 
+
 def callback(img):
+    global brakepub
     start = time.time()
     res = detect(img)
     print("Time to detect {}".format(time.time() - start))
     print(res)
     brake = should_brake(img, res)
-    print("Brake: {}".format(brake))
+    braketime = Float32()
+    braketime.data = 5.0
+    if brake:
+        print("Braking!")
+        brakepub.publish(braketime)
+        
 
 
 count = 0
@@ -66,7 +73,7 @@ brakepub = None
 
 if __name__ == "__main__":
     automation = Automation()
-    # brakepub = rospy.Publisher("/automation/stop", Float32, queue_size=1)
+    brakepub = rospy.Publisher("/automation/stop", Float32, queue_size=1)
     automation.OnImage(callback)
 
     rate = rospy.Rate(60)
@@ -74,4 +81,3 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
 	# Do some work
         rate.sleep()
-
