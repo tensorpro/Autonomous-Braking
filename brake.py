@@ -40,6 +40,9 @@ def safezone(bb):
     y = (ymin+ymax)/2
     return in_region(x,y, b=.3)
 
+def in_trajectory(bb):
+    return brakezone(bb) and not safezone(bb)
+
 def show_brakezone(size=[480,480], width=20, height=40, brake_fn=brakezone,
                    safe_fn=safezone):
     img_h, img_w = size
