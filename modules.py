@@ -38,7 +38,7 @@ def convert_ssd_result(rclasses, rscores, rbboxes):
     for classid, score, bb in zip(rclasses, rscores, rbboxes):
         # bb[[0,2]]*w
         # bb[[1,3]]*h
-        bb = bb.astype(int)
+        # bb = bb.astype(int)
         [ymin, xmin, ymax, xmax] = bb
         res = {}
         res['confidence'] = score
@@ -47,13 +47,13 @@ def convert_ssd_result(rclasses, rscores, rbboxes):
         results.append(res)
     return results
 
-def convert_yolo_result(res):
+def convert_yolo_result(res,w,h):
     for r in res:
         xmin=r['topleft']['x']
         ymin=r['topleft']['y']
         xmax=r['bottomright']['x']
         ymax=r['bottomright']['y']
-        r['box']=BBox(ymin,xmin,ymax,xmax)
+        r['box']=scale_box(BBox(ymin,xmin,ymax,xmax), 1/w,1/h)
         for field in ['bottomright','topleft']:
             del r[field]
     return res
@@ -126,4 +126,5 @@ class YOLO:
         self.net = TFNet(options)
 
     def __call__(self, img):
-        return convert_yolo_result(self.net.return_predict(img))
+        h,w = img.shape[:2]
+        return convert_yolo_result(self.net.return_predict(img),w,h)
