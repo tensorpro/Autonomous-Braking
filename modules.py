@@ -1,3 +1,4 @@
+from __future__ import division
 import os
 import math
 import random
@@ -7,6 +8,7 @@ import tensorflow as tf
 import cv2
 import time
 slim = tf.contrib.slim
+from collections import namedtuple
 
 import sys
 
@@ -22,20 +24,39 @@ classes = ['aeroplane', 'bicycle', 'bird', 'boat',
            'sheep', 'sofa', 'train', 'tvmonitor']
 
 
-def convert_result(rclasses, rscores, rbboxes, w, h):
+BBox = namedtuple("BBox", ('ymin', 'xmin', 'ymax', 'xmax'))
+
+def scale_box(box, x_scale, y_scale):
+    scaled = BBox(ymin=box.ymin*scale,
+                  xmin=box.xmin*scale,
+                  ymax=box.ymax*scale,
+                  xmax=box.xmax*scale)
+    return scaled
+
+def convert_ssd_result(rclasses, rscores, rbboxes):
     results = []
     for classid, score, bb in zip(rclasses, rscores, rbboxes):
-        bb[[0,2]]*=h
-        bb[[1,3]]*=w
+        # bb[[0,2]]*w
+        # bb[[1,3]]*h
         bb = bb.astype(int)
-        ymin, xmin, ymax, xmax = bb
+        [ymin, xmin, ymax, xmax] = bb
         res = {}
-        res['bottomright'] = dict(x=xmax, y=ymax)
-        res['topleft'] = dict(x=xmin, y=ymin)
         res['confidence'] = score
         res['label'] = classes[classid-1]
+        res['box']=BBox(*bb)
         results.append(res)
     return results
+
+def convert_yolo_result(res):
+    for r in res:
+        xmin=r['topleft']['x']
+        ymin=r['topleft']['y']
+        xmax=r['bottomright']['x']
+        ymax=r['bottomright']['y']
+        r['box']=BBox(ymin,xmin,ymax,xmax)
+        for field in ['bottomright','topleft']:
+            del r[field]
+    return res
 
 class SSD:
     def __init__(self, weights = '../checkpoints/ssd_300_vgg.ckpt', mem_frac=1):
@@ -77,8 +98,7 @@ class SSD:
         bbox_img = self.bbox_img
         ssd_anchors = self.ssd_anchors
         isess = self.isess
-        rimg, rpredictions, rlocalisations, rbbox_img = isess.run([image_4d, predictions, localisations, bbox_img],
-                                                                  feed_dict={img_input: img})
+        rimg, rpredictions, rlocalisations, rbbox_img = isess.run([image_4d, predictions, localisations, bbox_img],feed_dict={img_input: img})
 
         # Get classes and bboxes from the net outputs.
         rclasses, rscores, rbboxes = np_methods.ssd_bboxes_select(
@@ -94,7 +114,7 @@ class SSD:
 
         h,w = img.shape[:2]
 
-        return convert_result(rclasses, rscores, rbboxes,w,h)
+        return convert_ssd_result(rclasses, rscores, rbboxes)
 
 class YOLO:
     def __init__(self, weights, cfg, mem_frac=1):
@@ -105,4 +125,4 @@ class YOLO:
         self.net = TFNet(options)
 
     def __call__(self, img):
-        return self.net.return_predict(img)
+        return convert_yolo_result(self.net.return_predict(img), w,h)

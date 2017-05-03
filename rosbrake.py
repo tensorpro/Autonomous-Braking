@@ -9,7 +9,7 @@ import time
 slim = tf.contrib.slim
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-from automation import Automation
+# from automation import Automation
 import rospy
 import copy
 import cv2
@@ -66,7 +66,6 @@ def callback(img):
         print("Braking!")
         brakepub.publish(braketime)
         
-
 
 count = 0
 brakepub = None
