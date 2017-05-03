@@ -27,10 +27,10 @@ classes = ['aeroplane', 'bicycle', 'bird', 'boat',
 BBox = namedtuple("BBox", ('ymin', 'xmin', 'ymax', 'xmax'))
 
 def scale_box(box, x_scale, y_scale):
-    scaled = BBox(ymin=box.ymin*scale,
-                  xmin=box.xmin*scale,
-                  ymax=box.ymax*scale,
-                  xmax=box.xmax*scale)
+    scaled = BBox(ymin=box.ymin*y_scale,
+                  xmin=box.xmin*x_scale,
+                  ymax=box.ymax*y_scale,
+                  xmax=box.xmax*x_scale)
     return scaled
 
 def convert_ssd_result(rclasses, rscores, rbboxes):
@@ -59,7 +59,7 @@ def convert_yolo_result(res):
     return res
 
 class SSD:
-    def __init__(self, weights = '../checkpoints/ssd_300_vgg.ckpt', mem_frac=1):
+    def __init__(self, weights = "model_files/ssd_300_vgg.ckpt/ssd_300_vgg.ckpt", mem_frac=1):
         tf.reset_default_graph()
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=mem_frac)
 
@@ -117,7 +117,8 @@ class SSD:
         return convert_ssd_result(rclasses, rscores, rbboxes)
 
 class YOLO:
-    def __init__(self, weights, cfg, mem_frac=1):
+    def __init__(self, weights="model_files/yolo.weights",
+                 cfg="model_files/yolo.cfg", mem_frac=1):
         options = {"model": cfg,
                    "load": weights,
                    "threshold": 0.1,
@@ -125,4 +126,4 @@ class YOLO:
         self.net = TFNet(options)
 
     def __call__(self, img):
-        return convert_yolo_result(self.net.return_predict(img), w,h)
+        return convert_yolo_result(self.net.return_predict(img))
