@@ -1,4 +1,5 @@
-# CS598 MAAV at UIUC, Autonomus Safety Braking System
+# CS598 MAAV at UIUC
+# Autonomus Safety Braking System
 
 In this repository, we will included code and results from our experiments in autonomous vehicles.
 
@@ -8,4 +9,4 @@ Later, we integrated the detector's warning signals with Robot Operating System 
 
 We will find time to cleaning up the code :)
 
-P.S. MAAV = Messeing Around with Autonomous Vehicles
+P.S. MAAV = Messing Around with Autonomous Vehicles
