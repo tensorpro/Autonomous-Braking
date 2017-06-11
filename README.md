@@ -1,4 +1,4 @@
-# CS598 MAAV at UIUC
+# CS598 MAAV at UIUC, Autonomus Safety Braking System
 
 In this repository, we will included code and results from our experiments in autonomous vehicles.
 
@@ -7,3 +7,5 @@ We implemented real-time object detectors YOLO and SSD on an autonomous vehicle 
 Later, we integrated the detector's warning signals with Robot Operating System of car to initiate autonomous safety brake whenever the car comes very close to an obstruction. The car also reaccelerates after the obstruction moves to a safe distance. Our professor stood infront of this system to test it's safety! Check out the video of this [here](https://drive.google.com/open?id=0B9z_EPxFSXwKWkRjRXZKdVdwNm8)
 
 We will find time to cleaning up the code :)
+
+P.S. MAAV = Messeing Around with Autonomous Vehicles
