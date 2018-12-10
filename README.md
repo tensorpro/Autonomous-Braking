@@ -7,6 +7,6 @@ We implemented a real-time object detectors YOLO and SSD on an autonomous vehicl
 
 Later, we integrated the detector's warning signals with Robot Operating System of car to initiate autonomous safety brake whenever the car comes very close to an obstruction. The car also reaccelerates after the obstruction moves to a safe distance. Our professor stood infront of this system to test it's safety! Check out the video of this [here](https://drive.google.com/open?id=0B9z_EPxFSXwKWkRjRXZKdVdwNm8)
 
-We will find time to cleaning up the code :)
+We will find time to clean up the code :)
 
 P.S. MAAV = Messing Around with Autonomous Vehicles
